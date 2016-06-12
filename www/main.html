@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
+        
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            function setup(){
+                location.href = "setup.html";
+            }
+            function messagemain(){
+                location.href = "messagemain.html";
+            }
+            function serviceStart(){
+                window.location = "hybrid://pushStart";
+            }
+        
+            </script>
+                
+        <title>BSGGroup</title>
+    </head>
+    
+    <body onload="serviceStart()">
+        <div align=center class="col-xs-12"><h1>PRODUCTS</h1></div>
+        <div><img src="img/2.jpg" style="max-width:100%;max-height:100%"></div>
+        <div align=left class="mycompany"><h4>MyCompany App</h4></div>
+        <div align=left class="line"><img src="img/3.jpg" style="max-width:70%;max-height:70%" ></div>
+        <div align=left class="content"><h5>The Global Application to Person Platform.</h5></div>
+        <div class="set">&nbsp;</div>
+                
+        <nav class="navbar navbar-default navbar-fixed-bottom navbar-inverse">
+            <div class="col-xs-4" align="center" onclick="setup()" style="padding-top:7px;padding-bottom:7px;padding-right:0px;padding-left:0px;margin-right:auto;margin-left:auto">
+                <font size=6 color=white><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></font>
+            </div>
+            <div class="container col-xs-4" align="center">&nbsp;</div>
+            <div class="container col-xs-4" align=center onclick="messagemain()" style="padding-top:7px;padding-bottom:7px;padding-right:0px;padding-left:0px;margin-right:auto;margin-left:auto">
+                <font size=6 color=white><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></font>
+            </div>
+        </nav>
+    </body>
+</html>

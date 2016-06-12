@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
+        
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+                
+        <script type="text/javascript">
+            function save(){
+                //alert(document.getElementById('passcheck'));
+            if(document.getElementById('passcheck').checked){
+                var db = openDatabase('BSG', '1.0', 'BSG', 2 * 1024 * 1024);
+                
+                db.transaction(function (tx) {
+                    tx.executeSql('update password SET flag="Y"');
+                               alert("Protect Lock Successfully!");
+                               //location.href = "main.html";
+                });
+            
+            }
+            else{
+                if(document.getElementById('password').value !='' && document.getElementById('passwordck').value !='' && document.getElementById('password').value == document.getElementById('passwordck').value){
+                    //alert();
+                    var db = openDatabase('BSG', '1.0', 'BSG', 2 * 1024 * 1024);
+                    var msg = '';
+                    
+                    db.transaction(function (tx) {
+                                   tx.executeSql('update password SET flag="N"');
+                                   alert("Protect Unlock!");
+                                   //location.href = "main.html";
+                    });
+                }
+                else{
+                    alert('Please, Enter Valid Password.');
+                }
+            }
+            }
+        
+        function back(){
+            location.href = "main.html";
+        }
+        
+        var aaa = function(){
+            alert("aaaaa");
+        }
+        
+        </script>
+        
+        <title>BSGGroup</title>
+    </head>
+    
+    <body>
+        <div>&nbsp;</div>
+        <div align=center><img src="img/logo.png" style="max-width:70%;max-height:70%"></div>
+        <div align=center class="setup1">SETUP</div>
+        <div align=center><img src="img/4.jpg" class="band"></div>
+        <table width="100%" border=0>
+        <tr>
+            <td width="12%">&nbsp;</td>
+            <td>
+                <div class="squaredThree">
+                    <input type="checkbox" value="None" id="passcheck" name="passcheck" />
+                    <label for="squaredThree">Password Protected?</label>
+                </div>
+            </td>
+            <td width="12%">&nbsp;</td>
+        </tr>
+        <tr>
+            <td width="12%">&nbsp;</td>
+            <td>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <font size=3>&nbsp;&nbsp;Password&nbsp;</font>
+                        </span>
+                        <input type="text" class="form-control" id="password" name="password" placeholder="Enter your password!">
+                    </div><!-- /input-group -->
+                </div><!-- /.col-lg-6 -->
+            </div><!-- /.col-lg-6 -->
+            </td>
+            <td width="12%">&nbsp;</td>
+        </tr>
+        <tr>
+            <td width="12%">&nbsp;</td>
+            <td>
+                <div class="row">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <font size=3>Pass Check</font>
+                        </span>
+                        <input type="text" name="passwordck" id="passwordck" class="form-control" placeholder="Renter your password!">
+                    </div><!-- /input-group -->
+                </div><!-- /.col-lg-6 -->
+                </div><!-- /.col-lg-6 -->
+            <td width="12%">&nbsp;</td>
+        </tr>
+        
+        </table>
+        <div align=center><img src="img/4.jpg" class="band"></div>
+        
+        <nav class="navbar navbar-default navbar-fixed-bottom navbar-inverse">
+            <div class="col-xs-4" align="center" onclick="back()" style="padding-top:7px;padding-bottom:7px;padding-right:0px;padding-left:0px;margin-right:auto;margin-left:auto">
+                <font size=6 color=white><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span></font>
+            </div>
+            <div class="container col-xs-4" align="center">&nbsp;</div>
+            <div class="container col-xs-4" align=center onclick="save()" style="padding-top:7px;padding-bottom:7px;padding-right:0px;padding-left:0px;margin-right:auto;margin-left:auto">
+                <font size=6 color=white><span class="glyphicon glyphicon-saved" aria-hidden="true"></span></font>
+            </div>
+        </nav>
+    </body>
+</html>

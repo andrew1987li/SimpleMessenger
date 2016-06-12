@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
+        
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        
+        <style type="text/css">
+            .logodiv{
+                width: 100%;
+                height: 100%;
+                vertical-align: middle;
+            }
+        .band{
+            width:80%;
+            height:80%;
+        }
+        .tablelogo{
+            padding-top:35%;
+            width:100%;
+            height:100%;
+        }
+        .glist{
+            width:100%;
+        }
+        </style>
+        
+        <script type="text/javascript">
+            function back(){
+                location.href = "messagemain.html";
+            }
+        function listview(){
+            var db = openDatabase('BSG', '1.0', 'BSG', 2 * 1024 * 1024);
+            var msg = '';
+            
+            var sql = 'SELECT * FROM messageflag';
+            var message ='';
+            db.transaction(function (tx) {
+                tx.executeSql(sql, [], function (tx, results) {
+                    var username = results.rows.item(0).username;
+                    var groupid = results.rows.item(0).groupid;//alert(groupid);
+                    var table = document.getElementById("chattable");
+                              /*var row = table.insertRow(1);
+                              var cell0 = row.insertCell(0);
+                              var cell1 = row.insertCell(1);
+                              var cell2 = row.insertCell(2);
+                              cell1.innerHTML = "sdf";*/
+                              
+                    if(username == "All"){
+                              var sql = 'SELECT * FROM pushsms3 where groupid="'+groupid+'"';//alert(sql);
+                    }
+                    else{
+                              var sql = 'SELECT * FROM pushsms3 where userid="'+username+'" or userid="aladin" and groupid="'+groupid+'"';
+                    }
+                              
+                    tx.executeSql(sql, [], function (tx, results) {
+                                  var len = results.rows.length, i;
+                                  for (i = 0; i < len; i++){
+                                        message = results.rows.item(i).message;
+                                        var icon = results.rows.item(i).icon;
+                                        var processdate = results.rows.item(i).processdate;
+                                        var username = results.rows.item(i).userid;//alert(username);
+                                  if(username=='aladin'){
+                                        var row = table.insertRow(i);
+                                        var cell0 = row.insertCell(0);
+                                  cell0.innerHTML = '<div style="margin-top:20px;"> <span style="padding-right:12px;padding-left:12px;padding-top:7px;padding-bottom:8px;" class="col-xs-4" align=right> <font size=1 color=white>Sent&nbsp;'+processdate+'&nbsp;<span class="glyphicon glyphicon-time" aria-hidden="true"></span></font></span> <span style="border-radius:4px;padding-left:12px;padding-right:12px;padding-top:7px;padding-bottom:7px; background-color:#eceab1;" class="col-xs-6" align=right>  <font size=4>'+message+'</font> </span><span style="padding-left:8px;padding-top:0px;" class="col-xs-2" align=left> <img src="img/'+icon+'" width="40px" class="img-rounded"> </span></div>';
+                                  }
+                                  else{
+                                        var row = table.insertRow(i);
+                                        var cell0 = row.insertCell(0);
+                                  
+                                        cell0.innerHTML = '<div style="margin-top:20px;"> <span style="padding-right:8px;padding-top:0px;" class="col-xs-2" align=right> <img src="img/'+icon+'" width="40px" class="img-rounded">                                  </span> <span style="border-radius:4px;padding-left:12px;padding-right:12px;padding-top:7px;padding-bottom:7px; background-color:#bebfc4;" class="col-xs-6" align=left> <font size=4>'+message+'</font> </span> <span style="padding-right:12px;padding-left:12px;adding-top:7px;padding-bottom:8px;" class="col-xs-4" align=left> <font size=1 color=white><span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;'+processdate+'</font></span></div>';
+                                  }
+                                  }
+                    }, null);
+                              
+                              
+                }, null);
+                           
+            });
+        }
+        
+        function send(){
+            var str = document.getElementById("myword").value;
+            
+            if(str == ''){alert("Valid input")}
+            else{
+                
+                //Date Get
+                var today = new Date();
+                var h = today.getHours();
+                var m = today.getMinutes();
+                // add a zero in front of numbers<10
+                m = checkTime(m);
+                var today = h + ":" + m;
+                
+                var db = openDatabase('BSG', '1.0', 'BSG', 2 * 1024 * 1024);
+                var msg = '';
+            
+                var sql = 'SELECT * FROM messageflag';
+                db.transaction(function (tx) {
+                        tx.executeSql(sql, [], function (tx, results) {
+                                      var groupid = results.rows.item(0).groupid;//alert(groupid);
+                                      var sql = 'INSERT INTO pushsms3 (id,userid,groupid,applicationid, message, creationdate,processdate,done,error,errormessage,retry,icon) VALUES (1, "aladin", "'+groupid+'","1","'+str+'","2016-05-08","'+today+'","Y","N","N","Y","6.png")';
+                                      
+                                      tx.executeSql(sql);
+                                      var table = document.getElementById("chattable");
+                                      table.innerHTML = '';
+                                      document.getElementById("myword").value ='';
+                                      listview()
+                        }, null);
+                });
+            }
+        }
+        function checkTime(i) {
+            if (i < 10) {
+                i = "0" + i;
+            }
+            return i;
+        }
+        
+        function startTime() {
+            var today = new Date();
+            var h = today.getHours();
+            var m = today.getMinutes();
+            // add a zero in front of numbers<10
+            m = checkTime(m);
+            var time = h + ":" + m;
+            alert(time);
+        }
+        
+        var objcFuncFromJS = function(){
+            window.location = "hybrid://objcFuncFromJS";
+        }
+        
+        </script>
+
+        <title>BSGGroup</title>
+    </head>
+    
+    <body onload="listview()" style="background-color:#394165;padding-top:90px;padding-bottom:70px;">
+        <!--Top Bar-->
+        <nav class="navbar navbar-default navbar-fixed-top" style="background-color:#2e3551;min-height:60px;">
+            
+            <span class="col-xs-2" style="min-height:60px;padding-top:20px;" align=center onclick="back()">
+                <img src="img/8.png" style="max-height:25px;" />
+            </span>
+            
+            <span class="col-xs-7" style="min-height:60px;padding-top:20px;" align=center>
+                <font size=5 color=white id="name" name="name">
+                    <script>
+                        var db = openDatabase('BSG', '1.0', 'BSG', 2 * 1024 * 1024);
+                        var msg = '';
+                        var sql = 'SELECT * FROM messageflag';
+                        db.transaction(function (tx) {
+                                   tx.executeSql(sql, [], function (tx, results) {
+                                                 var username = results.rows.item(0).username;
+                                                 //alert(username);
+                                                 var name = document.getElementById('name');
+                                                 name.innerHTML = username;
+                                                 
+                                    }, null);
+                        });
+                    </script>
+                </font>
+            </span>
+            
+            <span class="col-xs-3" style="min-height:60px;padding-top:5px;" align=center id="photo" name="photo">
+                <script>
+                    var db = openDatabase('BSG', '1.0', 'BSG', 2 * 1024 * 1024);
+                    var msg = '';
+                    var sql = 'SELECT * FROM messageflag';
+                    db.transaction(function (tx) {
+                                   tx.executeSql(sql, [], function (tx, results) {
+                                                 var username = results.rows.item(0).username;
+                                                 //alert(username);
+                                                 if(username == 'All'){
+                                                    var photo = document.getElementById('photo');
+                                                    photo.innerHTML = '<img src="img/7.png" style="max-height:50px;max-width:50px;" class="img-rounded"/>';
+                                                 }
+                                                 else
+                                                 {
+                                                    var sql = 'SELECT * FROM pushsms3 where userid="'+username+'"';
+                                                    tx.executeSql(sql, [], function (tx, results) {
+                                                               var icon = results.rows.item(0).icon;
+                                                               var photo = document.getElementById('photo');
+                                                               photo.innerHTML = '<img src="img/'+icon+'" style="max-height:50px;max-width:50px;" class="img-rounded"/>';
+                                                    }, null);
+                                                 }
+                                    }, null);
+                    });
+                </script>
+            </span>
+        </nav>
+        
+        <!--Message View-->
+        <table width="100%" id="chattable" name="chattable" border=0>
+            
+        </table>
+        
+        <!--Bottom Bar-->
+        <nav class="navbar navbar-default navbar-fixed-bottom" style="background-color:#2e3551">
+            <div class="col-xs-9" align=left style="padding-top:7px;padding-bottom:7px;padding-right:0px;padding-left:12px;margin-right:auto;margin-left:auto" >
+                <div class="input-group">
+                    <input type="text" class="form-control" id="myword" name="myword" placeholder="Please..">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span></button>
+                        </span>
+                </div>
+            </div>
+            <div class="col-xs-3" onclick="send()" align=right style="padding-top:7px;padding-bottom:7px;padding-right:12px;padding-left:0px;margin-right:auto;margin-left:auto"><input class="btn btn-default" type="button" value="Send">
+            </div>
+        </nav>
+        <!--<input type=button value=time onclick="startTime()">-->
+           <!-- <input type="button" value="clickbutton" onClick="objcFuncFromJS()"/>       -->
+    </body>
+</html>

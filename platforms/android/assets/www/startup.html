@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">-->
+        
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+            <script type="text/javascript" src="cordova.js"></script>
+            <script type="text/javascript" src="js/index.js"></script>
+            <script type="text/javascript" src="js/bootstrap.min.js"></script>
+            <script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
+            
+            <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+            <link rel="stylesheet" type="text/css" href="css/style.css">
+            
+            <script type="text/javascript">
+                
+                function flagcheck(){
+                    var db = window.sqlitePlugin.openDatabase({name: "mySQLite.db", location: 'default'});
+                    //var db = openDatabase('BSG', '1.0', 'BSG', 2 * 1024 * 1024);
+                    var msg = '';
+                    
+                    db.transaction(function (tx) {
+                        tx.executeSql('SELECT * FROM password', [], function (tx, results) {
+                            var len = results.rows.length, i;
+                                                 
+                            for (i = 0; i < len; i++){
+                                msg = results.rows.item(i).flag;
+                                      //alert(msg);
+                                if(msg == "N") //
+                                {
+                                      location.href = "main.html";
+                                }
+                            }
+                        }, null);
+                    });
+                }
+                
+                function passcheck(){
+                    var db = openDatabase('BSG', '1.0', 'BSG', 2 * 1024 * 1024);
+                    var msg = '';
+                    
+                    db.transaction(function (tx) {
+                        //tx.executeSql('CREATE TABLE IF NOT EXISTS password (id, pass,flag)');
+                        //tx.executeSql('INSERT INTO password (id, pass, flag) VALUES (1, "aladin", "Y")');
+                        //tx.executeSql('drop table password');
+                        //tx.executeSql('update password SET flag="N"');
+                        
+                        //msg = '<p>Log message created and row inserted.</p>';
+                        //document.querySelector('#status').innerHTML =  msg;
+                    });
+                    
+                    db.transaction(function (tx) {
+                        var str = document.getElementById("crypt").value;
+                        var sql = 'SELECT * FROM password where pass="'+str+'"';
+                        tx.executeSql(sql, [], function (tx, results) {
+                            //var len = results.rows.length, i;
+                            //msg = "<p>Found rows: " + len + "</p>";
+                            //document.querySelector('#status').innerHTML +=  msg;
+                                                 
+                            //for (i = 0; i < len; i++){
+                                msg = results.rows.item(0).pass;
+                            //    document.querySelector('#status').innerHTML +=  msg;
+                                                 
+                            //}
+                            //var n=msg.localeCompare("aladin");alert(n);
+                            if(msg == "aladin"){
+                                
+                                location.href = "main.html";
+                            }
+                        }, null);
+                    });
+                    
+                }
+            
+            function db(){
+                var db = openDatabase('BSG', '1.0', 'BSG', 2 * 1024 * 1024);
+                var msg = '';
+                
+                db.transaction(function (tx) {
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS pushsms3 (id,userid,groupid,applicationid, message, creationdate,processdate,done,error,errormessage,retry,icon)');
+                    tx.executeSql('INSERT INTO pushsms3 (id,userid,groupid,applicationid, message, creationdate,processdate,done,error,errormessage,retry,icon) VALUES (1, "aloyna", "BSG","1","hello i am aloyna.","2016-05-03","20:43","Y","N","N","Y","1.png")');
+                    tx.executeSql('INSERT INTO pushsms3 (id,userid,groupid,applicationid, message, creationdate,processdate,done,error,errormessage,retry,icon) VALUES (2, "John", "BSG","1","hello i am John.","2016-04-03","08:12","Y","N","N","Y","2.png")');
+                     tx.executeSql('INSERT INTO pushsms3 (id,userid,groupid,applicationid, message, creationdate,processdate,done,error,errormessage,retry,icon) VALUES (1, "aloyna", "BSG","1","Good morning how are you?","2016-05-08","12:21","Y","N","N","Y","1.png")');
+                     tx.executeSql('INSERT INTO pushsms3 (id,userid,groupid,applicationid, message, creationdate,processdate,done,error,errormessage,retry,icon) VALUES (5, "aladin", "BSG","1","Hi i am aladin.","2016-05-13","15:45","Y","N","N","Y","6.png")');
+                    tx.executeSql('INSERT INTO pushsms3 (id,userid,groupid,applicationid, message, creationdate,processdate,done,error,errormessage,retry,icon) VALUES (2, "John", "BSG","1","Thankyou Good bye!","2016-04-03","17:00","Y","N","N","Y","2.png")');
+                               
+                    //tx.executeSql('');
+                    tx.executeSql('INSERT INTO pushsms3 (id,userid,groupid,applicationid, message, creationdate,processdate,done,error,errormessage,retry,icon) VALUES (4, "Masuda", "BSG1","1","hello i am masuda.","2016-04-03","08:48","Y","N","N","Y","4.png")');
+                    tx.executeSql('INSERT INTO pushsms3 (id,userid,groupid,applicationid, message, creationdate,processdate,done,error,errormessage,retry,icon) VALUES (3, "Tom", "BSG1","1","Hi How are you?","2016-05-9","20:24","Y","N","N","Y","3.png")');
+                     tx.executeSql('INSERT INTO pushsms3 (id,userid,groupid,applicationid, message, creationdate,processdate,done,error,errormessage,retry,icon) VALUES (5, "aladin", "BSG1","1","Hi i am aladin.","2016-05-13","21:28","Y","N","N","Y","6.png")');
+                    tx.executeSql('INSERT INTO pushsms3 (id,userid,groupid,applicationid, message, creationdate,processdate,done,error,errormessage,retry,icon) VALUES (4, "Masuda", "BSG1","1","Good morning Good luck.","2016-05-13","05:14","Y","N","N","Y","4.png")');
+                               
+                               
+                               //Group table
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS bsggroup (id,name,active)');
+                    tx.executeSql('INSERT INTO bsggroup (id,name,active) VALUES (1, "BSG","1")');
+                    tx.executeSql('INSERT INTO bsggroup (id,name,active) VALUES (2, "BSG1","1")');
+                     
+                               //user table
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS users (id,name,active,groupid,icon)');
+                    tx.executeSql('INSERT INTO users (id,name,active,groupid,icon) VALUES (1, "aloyna","1","BSG","1.png")');
+                    tx.executeSql('INSERT INTO users (id,name,active,groupid,icon) VALUES (2, "John","1","BSG","2.png")');
+                    tx.executeSql('INSERT INTO users (id,name,active,groupid,icon) VALUES (3, "Tom","1","BSG1","3.png")');
+                    tx.executeSql('INSERT INTO users (id,name,active,groupid,icon) VALUES (4, "Masuda","1","BSG1","4.png")');
+                               
+                               //useringroup table
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS useringroup (id,userid,groupid,active)');
+                    tx.executeSql('INSERT INTO useringroup (id,userid,groupid,active) VALUES (1, "1","BSG","1")');
+                    tx.executeSql('INSERT INTO useringroup (id,userid,groupid,active) VALUES (1, "2","BSG1","1")');
+                               
+                               //messageflag table
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS messageflag (id,username,groupid,active)');
+                    tx.executeSql('INSERT INTO messageflag (id,username,groupid,active) VALUES (1, "John","BSG","1")');
+                               
+                               //password table
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS password (id, pass,flag)');
+                    tx.executeSql('INSERT INTO password (id, pass, flag) VALUES (1, "aladin", "Y")');
+                               
+                               //tx.executeSql('drop table smspush');
+                               var sql = 'SELECT * FROM pushsms3';
+                               //alert(sql);
+                               tx.executeSql(sql, [], function (tx, results) {
+                                             //var len = results.rows.length, i;
+                                             //msg = "<p>Found rows: " + len + "</p>";
+                                             //document.querySelector('#status').innerHTML +=  msg;
+                                             
+                                             //for (i = 0; i < len; i++){
+                                             msg = results.rows.item(1).icon;
+                                             //    document.querySelector('#status').innerHTML +=  msg;
+                                             alert(msg);
+                                             //}
+                                             //var n=msg.localeCompare("aladin");alert(n);
+                                             
+                                            }, null);
+                               
+                               
+                               
+                               //tx.executeSql('drop table password');
+                    //tx.executeSql('update password SET flag="N"');
+                    
+                });
+            }
+            
+            function aaa(){
+                    window.location = "hybrid1://objcFuncFromJS";
+            }
+            function b(){
+                alert();
+            }
+            
+            </script>
+            
+        <title>BSGGroup</title>
+    </head>
+    
+    <body onload="flagcheck()">
+        <table class="tablelogo" border=0>
+            <tr>
+                <td width="10%">&nbsp;</td>
+                <td>
+                    <img src="img/logo.png" style="max-width:100%;max-height:100%">
+                    <fieldset class="scheduler-border">
+                    <legend class="scheduler-border">Login</legend>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="input-group">
+                                <input type="password" id="crypt" name="crypt" class="form-control" placeholder="Enter Password">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" id="go" value="Go" onclick="passcheck()">Go!</button>
+                                    </span>
+                            </div><!-- /input-group -->
+                        </div><!-- /.col-lg-6 -->
+                    </div><!-- /.row -->
+                    </fieldset>
+                </td>
+                <td width="10%">&nbsp;</td>
+            </tr>
+        </table><br><br><br>
+        <input type=button value="DB Excute" onclick="db()">
+            <!--<input type=button value="objective c" onclick="aaa()">-->
+    </body>
+</html>
